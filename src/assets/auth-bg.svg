@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Estantes de almacén con cajas">
+  <!-- Ilustración original del proyecto Inventario (sin recursos de terceros). Reemplazable por otra imagen. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3f44" />
+      <stop offset="0.55" stop-color="#0f5e63" />
+      <stop offset="1" stop-color="#1b7f7a" />
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a3438" />
+      <stop offset="1" stop-color="#072a2e" />
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1" />
+    </pattern>
+    <g id="box-a">
+      <rect width="96" height="72" rx="6" fill="#f2a93b" />
+      <rect x="0" y="0" width="96" height="14" rx="6" fill="#e0922a" />
+      <rect x="40" y="0" width="16" height="30" fill="#fff4dc" fill-opacity="0.7" />
+    </g>
+    <g id="box-b">
+      <rect width="80" height="60" rx="6" fill="#f6efe4" />
+      <rect width="80" height="12" rx="6" fill="#e3d9c8" />
+      <rect x="14" y="26" width="52" height="6" rx="3" fill="#0f5e63" fill-opacity="0.55" />
+      <rect x="14" y="38" width="34" height="6" rx="3" fill="#0f5e63" fill-opacity="0.35" />
+    </g>
+    <g id="box-c">
+      <rect width="64" height="64" rx="6" fill="#2f9a8f" />
+      <rect width="64" height="12" rx="6" fill="#257f76" />
+      <circle cx="32" cy="38" r="12" fill="none" stroke="#f6efe4" stroke-width="4" />
+    </g>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)" />
+  <rect width="1600" height="900" fill="url(#grid)" />
+  <circle cx="1280" cy="190" r="210" fill="#f2a93b" fill-opacity="0.14" />
+  <circle cx="1280" cy="190" r="120" fill="#f2a93b" fill-opacity="0.16" />
+  <circle cx="160" cy="760" r="260" fill="#ffffff" fill-opacity="0.04" />
+
+  <!-- Suelo -->
+  <rect y="720" width="1600" height="180" fill="url(#floor)" />
+  <rect y="716" width="1600" height="6" fill="#ffffff" fill-opacity="0.08" />
+
+  <!-- Estante grande -->
+  <g transform="translate(120 170)">
+    <rect x="0" y="0" width="14" height="550" fill="#d9e6e4" fill-opacity="0.85" />
+    <rect x="566" y="0" width="14" height="550" fill="#d9e6e4" fill-opacity="0.85" />
+    <rect x="0" y="170" width="580" height="12" fill="#d9e6e4" fill-opacity="0.85" />
+    <rect x="0" y="350" width="580" height="12" fill="#d9e6e4" fill-opacity="0.85" />
+    <rect x="0" y="530" width="580" height="12" fill="#d9e6e4" fill-opacity="0.85" />
+    <path d="M14 0 566 170M566 0 14 170" stroke="#d9e6e4" stroke-opacity="0.18" stroke-width="4" />
+    <use href="#box-a" x="34" y="98" />
+    <use href="#box-b" x="150" y="110" />
+    <use href="#box-c" x="250" y="106" />
+    <use href="#box-a" x="340" y="98" />
+    <use href="#box-c" x="450" y="106" />
+    <use href="#box-b" x="40" y="290" />
+    <use href="#box-b" x="132" y="290" />
+    <use href="#box-a" x="236" y="278" />
+    <use href="#box-c" x="352" y="286" />
+    <use href="#box-a" x="440" y="278" />
+    <use href="#box-c" x="40" y="466" />
+    <use href="#box-a" x="120" y="458" />
+    <use href="#box-b" x="236" y="470" />
+    <use href="#box-b" x="330" y="470" />
+    <use href="#box-c" x="440" y="466" />
+  </g>
+
+  <!-- Segundo estante, más lejano -->
+  <g transform="translate(790 300)" opacity="0.7">
+    <rect x="0" y="0" width="10" height="420" fill="#d9e6e4" fill-opacity="0.7" />
+    <rect x="430" y="0" width="10" height="420" fill="#d9e6e4" fill-opacity="0.7" />
+    <rect x="0" y="140" width="440" height="9" fill="#d9e6e4" fill-opacity="0.7" />
+    <rect x="0" y="280" width="440" height="9" fill="#d9e6e4" fill-opacity="0.7" />
+    <rect x="0" y="411" width="440" height="9" fill="#d9e6e4" fill-opacity="0.7" />
+    <use href="#box-c" x="30" y="76" />
+    <use href="#box-a" x="120" y="68" />
+    <use href="#box-b" x="240" y="80" />
+    <use href="#box-c" x="340" y="76" />
+    <use href="#box-b" x="30" y="220" />
+    <use href="#box-c" x="130" y="216" />
+    <use href="#box-a" x="220" y="208" />
+    <use href="#box-b" x="340" y="220" />
+  </g>
+
+  <!-- Cajas sueltas en el suelo -->
+  <use href="#box-a" x="720" y="660" />
+  <use href="#box-b" x="830" y="672" />
+  <use href="#box-c" x="926" y="668" />
+  <use href="#box-a" x="1000" y="660" transform="translate(40 0)" />
+</svg>
