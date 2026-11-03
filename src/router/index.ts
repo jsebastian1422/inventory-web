@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import ForgotPasswordView from '../views/auth/ForgotPasswordView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import ResetPasswordView from '../views/auth/ResetPasswordView.vue'
+import { MODULES } from '../modules/catalog'
+import ModulePlaceholderView from '../views/ModulePlaceholderView.vue'
 import { installSessionGuard } from './guards'
 
 declare module 'vue-router' {
@@ -14,6 +16,8 @@ declare module 'vue-router' {
     layout?: 'auth' | 'dashboard'
     /** Posicion del formulario sobre el fondo (solo layout `auth`). */
     panel?: 'side' | 'center'
+    /** Permisos que dan acceso a la ruta: basta con tener alguno. */
+    permission?: string[]
   }
 }
 
@@ -37,6 +41,13 @@ export const routes: RouteRecordRaw[] = [
     component: ResetPasswordView,
     meta: { title: 'Restablecer contraseña', public: true, layout: 'auth', panel: 'center' },
   },
+  // Rutas de modulo generadas del catalogo; su vista real reemplaza al marcador de posicion.
+  ...MODULES.map((m): RouteRecordRaw => ({
+    path: m.path,
+    name: m.id,
+    component: ModulePlaceholderView,
+    meta: { title: m.title, layout: 'dashboard', permission: m.anyOf },
+  })),
   // Rutas desconocidas: la guarda decide entre `/` y el login.
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]

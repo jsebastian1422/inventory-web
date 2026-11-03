@@ -8,12 +8,14 @@ export function safeRedirect(value: unknown): string {
 
 interface SessionView {
   readonly isAuthenticated: boolean
+  readonly permissions?: readonly string[]
 }
 
 /**
  * Decide si se puede entrar a `to` con la sesion actual: true, o la ruta a la que ir.
  * - Ruta privada sin sesion -> login (conserva el destino en `redirect` si `keepTarget`).
  * - Ruta publica con sesion -> el destino pedido o `/`.
+ * - Ruta con `meta.permission` y sesion sin ninguno de esos permisos -> `/`.
  */
 export function resolveAccess(
   to: Pick<RouteLocationNormalizedGeneric, 'meta' | 'fullPath' | 'query'>,
@@ -25,6 +27,11 @@ export function resolveAccess(
     return { name: 'login', query: keepTarget ? { redirect: to.fullPath } : {} }
   }
   if (session.isAuthenticated && isPublic) return safeRedirect(to.query.redirect)
+  const required = to.meta.permission
+  if (session.isAuthenticated && required && required.length > 0) {
+    const owned = session.permissions ?? []
+    if (!required.some((code) => owned.includes(code))) return '/'
+  }
   return true
 }
 

@@ -32,7 +32,7 @@ describe('Dashboard layout', () => {
     const { wrapper, session } = await mountAt('/')
     expect(wrapper.find('[data-testid="sidebar"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="header"]').exists()).toBe(true)
-    expect(wrapper.find('[data-testid="content"]').text()).toContain('Bienvenido')
+    expect(wrapper.find('[data-testid="content"]').text()).toContain('Bienvenido, Ana')
     expect(wrapper.find('[data-testid="user-name"]').text()).toBe('Ana Pérez')
     session.dispose()
   })

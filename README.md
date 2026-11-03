@@ -69,10 +69,31 @@ No hay registro: solo entran usuarios creados por un administrador. El resto de 
 - **PWA:** el service worker no cachea `/auth/*` (`NetworkOnly` + `navigateFallbackDenylist` en `vite.config.ts`).
 - **Despliegue:** sirve la app con una CSP restrictiva (ejemplo en `inventory-api/README.md`).
 
-## Agregar un modulo
+## Menu de modulos (sprint 012)
 
-Crea la vista en `src/views/`, registra la ruta en `src/router/index.ts` con `meta: { layout: 'dashboard' }`
-(sera privada por defecto) y el enlace en `navItems` de `src/layouts/DashboardLayout.vue`.
+`/` muestra en cards los modulos a los que el usuario tiene acceso. El catalogo fijo esta en
+`src/modules/catalog.ts` (`MODULES`: `id`, `title`, `description` de maximo 90 caracteres, `icon`, `path`,
+`anyOf` y `order`); `useModules()` lo filtra con `session.permissions` (basta con tener alguno de `anyOf`) y lo
+usan `HomeView` y la barra lateral (`DashboardLayout`). Mientras la sesion no esta lista se ven esqueletos.
+
+- **Cards por fila:** el control "Cards por fila" (2 a 5, 4 por defecto) guarda la eleccion en `localStorage`
+  (clave `inv.pref.menuColumns`) desde `src/preferences/menu-columns.ts`, el **unico** archivo que puede usar
+  `localStorage` (lo verifica la prueba CA-15 de `session.test.ts`). La lectura es estricta: solo acepta un entero
+  de 2 a 5 (`/^[2-5]$/`); cualquier otro valor ("3abc", "3.9", " 3", "03") o un almacenamiento que falla dan 4.
+- **Columnas por ancho del contenedor:** `.home` es un contenedor (`container-type: inline-size`) y las columnas
+  dependen de su ancho, no del de la ventana (la barra lateral abierta resta espacio): menos de 440 px, 1 columna;
+  de 440 a 879 px, 2; de 880 a 1079 px, `min(preferida, 4)`; desde 1080 px, la preferida (hasta 5). El control
+  "Cards por fila" solo se ve desde 880 px de contenedor. Los umbrales viven en `src/style.css`.
+- **Teclado del control:** un solo `tabindex=0` (el boton seleccionado); flechas Izquierda/Arriba y Derecha/Abajo
+  retroceden y avanzan con vuelta circular, Home elige 2 y End elige 5; el foco sigue a la eleccion.
+- **Barra lateral:** `src/stores/app.ts` la inicia cerrada si la ventana mide menos de 768 px
+  (`matchMedia('(max-width: 767px)')`); en pantallas mayores inicia abierta.
+- **Rutas de modulo:** `/users`, `/roles`, `/establishments`, `/categories`, `/products`, `/inventories`,
+  `/stock`, `/carts` y `/sales` se generan del catalogo con `meta.permission`. `resolveAccess` redirige a `/` si
+  la sesion no tiene ninguno de esos permisos; con permiso se muestra `ModulePlaceholderView` ("En construccion").
+- **Agregar un modulo:** agrega su entrada a `MODULES` (con su SVG en `src/modules/icons/`) y, cuando exista su
+  vista, cambia el `component` de su ruta en `src/router/index.ts`. Los codigos de `anyOf` deben coincidir con
+  `inventory-api/packages/shared/src/auth/permissions.ts`: si un permiso cambia de nombre, la card desaparece.
 
 ## Calidad
 

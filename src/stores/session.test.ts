@@ -153,17 +153,24 @@ describe('session store', () => {
     expect(await session.refresh()).toBe(true)
   })
 
-  it('CA-15: no source file uses localStorage, sessionStorage or document.cookie', () => {
+  it('CA-15: no source file uses sessionStorage or document.cookie; localStorage only in the columns preference', () => {
     const files = import.meta.glob('/src/**/*.{ts,vue}', {
       query: '?raw',
       import: 'default',
       eager: true,
     }) as Record<string, string>
-    const offenders = Object.entries(files)
-      .filter(([path]) => !path.endsWith('.test.ts'))
-      .filter(([, source]) => /localStorage|sessionStorage|document\.cookie/.test(source))
+    const sources = Object.entries(files).filter(([path]) => !path.endsWith('.test.ts'))
+    const forbidden = sources
+      .filter(([, source]) => /sessionStorage|document\.cookie/.test(source))
       .map(([path]) => path)
-    expect(offenders).toEqual([])
+    expect(forbidden).toEqual([])
+    const usesLocal = sources
+      .filter(([, source]) => /localStorage/.test(source))
+      .map(([path]) => path)
+    expect(usesLocal).toEqual(['/src/preferences/menu-columns.ts'])
+    // The only allowed key is the columns preference: no token or session data.
+    const prefs = files['/src/preferences/menu-columns.ts']
+    expect(prefs).not.toMatch(/token|password|refresh/i)
   })
 })
 
